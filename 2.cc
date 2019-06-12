@@ -12,21 +12,31 @@
 using namespace std;
 
 
-bool sum_result (vector<int> input, int target){
-	unordered_set<int> hash_set;
+vector<int> product_excepet_itself(vector<int> input){
+	int input_size = input.size();
 
-	for (auto input_num: input){
-		if (hash_set.find(target - input_num) != hash_set.end()){
-			return true;
-		}
-		else{
-			hash_set.insert(input_num);
-		}
+	vector<int> left_production(input_size, 1);
+	vector<int> right_production(input_size, 1);
+
+	vector<int> result;
+	cout << 0 << "left" << left_production[0] << endl;
+	for (int i = 1; i < input_size; i++){
+		left_production[i] = left_production[i-1]*input[i-1];
+		cout << i << "left" << left_production[i] << endl;
 	}
 
-	return false;
-}
+	for (int i = input_size - 2; i >= 0; i--){
+		right_production[i] = right_production[i+1] * input[i+1];
+		cout << i << "right" << right_production[i] << endl;
+	}
 
+
+	for (int i = 0; i < input_size; i++){
+		result.push_back(left_production[i]*right_production[i]);
+	}
+
+	return result;
+}
 
 
 
